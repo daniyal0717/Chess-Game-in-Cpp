@@ -25,7 +25,7 @@ This project implements a fully functional two-player chess game in the terminal
 
 | Concept | How It's Applied |
 |---|---|
-| **Encapsulation** | Each class uses private data members with public getters/setters |
+| **Encapsulation** | Each class uses protected data members, allowing derived piece classes to access inherited attributes directly |
 | **Inheritance** | `Pawn`, `Rook`, `Knight`, `Bishop`, `Queen`, `King` all inherit from a base `Piece` class |
 | **Polymorphism** | `isValidMove()` is a `virtual` function overridden by each piece class |
 | **Composition** | The `Board` class contains and manages `Piece` objects |
