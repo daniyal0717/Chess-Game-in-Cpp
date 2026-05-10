@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="knight.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,12 +138,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
-    <ClInclude Include="board.hpp" />
+    <ClInclude Include="board.h" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="King.h" />
     <ClInclude Include="knight.h" />
     <ClInclude Include="pawn.h" />
-    <ClInclude Include="pieces.hpp" />
+    <ClInclude Include="pieces.h" />
     <ClInclude Include="playerinfo.hpp" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="rook.h" />
