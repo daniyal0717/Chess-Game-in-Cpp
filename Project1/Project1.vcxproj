@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="King.cpp" />
     <ClCompile Include="knight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pawn.cpp" />
