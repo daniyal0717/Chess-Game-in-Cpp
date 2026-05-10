@@ -52,7 +52,24 @@ void board::display()
 		cout << "";
 		for (int j = 0; j < 8; ++j)
 		{
-			cout << setw(4) << arr[i][j];
+			if (arr[i][j] == '-')
+			{
+				cout << setw(4) << arr[i][j];
+			}
+			else
+			{
+				for (int a = 0; a < 6; ++a)
+				{
+					if (arr[i][j] == tpieces[a])
+					{
+						cout << "\033[34m" << setw(4) << arr[i][j] << "\033[0m";
+					}
+					else if (arr[i][j] == Tpieces[a])
+					{
+						cout << "\033[92m" << setw(4) << arr[i][j] << "\033[0m";
+					}
+				}
+			}
 		}
 		cout << "";
 		cout << endl;
@@ -267,9 +284,6 @@ bool board::move(info& other, info& enemy)
 							center();
 							cout << " CHECKMATE! Player " << other.getid() << " wins! " << endl;
 							system("pause");
-							system("cls");
-							cout << " umar khan badozai " << endl;
-							system("pause");
 							return false;
 						}
 						else if (legalmove.isincheck(kingx, kingy, arr, tpieces, Tpieces, enemy, other, enpassantrow, enpassantcol))
@@ -389,9 +403,7 @@ bool board::move(info& other, info& enemy)
 							other.display();
 							center();
 							cout << " CHECKMATE! Player " << other.getid() << " wins! " << endl;
-							system("pause");
-							system("cls");
-							cout << " umar khan badozai " << endl;
+							
 							system("pause");
 							return false;
 						}
