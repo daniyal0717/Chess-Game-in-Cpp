@@ -127,11 +127,13 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pieces.cpp" />
+    <ClCompile Include="playerinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="board.hpp" />
     <ClInclude Include="pieces.hpp" />
+    <ClInclude Include="playerinfo.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
