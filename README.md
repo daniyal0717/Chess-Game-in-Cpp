@@ -88,9 +88,9 @@ g++ src/*.cpp -o chess -std=c++17
 
 | Name | GitHub |
 |---|---|
-| Member 1 | [@username](https://github.com/username) |
-| Member 2 | [@username](https://github.com/username) |
-| Member 3 | [@username](https://github.com/username) |
+| Member 1 | [Daniyal Khalid](https://github.com/daniyal0717) |
+| Member 2 | [Muhammad Hassan](https://github.com/muhammadhassanoffi-cs) |
+| Member 3 | [Umar Khan](https://github.com/aouomarkhan4-glitch) |
 
 ---
 
