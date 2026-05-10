@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="knight.cpp" />
     <ClCompile Include="main.cpp" />
