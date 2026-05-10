@@ -133,6 +133,7 @@
     <ClCompile Include="rook.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bishop.h" />
     <ClInclude Include="board.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="knight.h" />
