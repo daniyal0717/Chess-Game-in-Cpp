@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="knight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pawn.cpp" />
     <ClCompile Include="pieces.cpp" />
@@ -134,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="board.hpp" />
     <ClInclude Include="game.hpp" />
+    <ClInclude Include="knight.h" />
     <ClInclude Include="pawn.h" />
     <ClInclude Include="pieces.hpp" />
     <ClInclude Include="playerinfo.hpp" />
