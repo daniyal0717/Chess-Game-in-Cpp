@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="board.hpp" />
+    <ClInclude Include="game.hpp" />
     <ClInclude Include="pieces.hpp" />
     <ClInclude Include="playerinfo.hpp" />
   </ItemGroup>
