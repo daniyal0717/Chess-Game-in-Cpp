@@ -137,6 +137,7 @@
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="board.hpp" />
     <ClInclude Include="game.hpp" />
+    <ClInclude Include="King.h" />
     <ClInclude Include="knight.h" />
     <ClInclude Include="pawn.h" />
     <ClInclude Include="pieces.hpp" />
