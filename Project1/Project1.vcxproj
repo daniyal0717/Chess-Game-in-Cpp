@@ -132,6 +132,7 @@
     <ClCompile Include="pawn.cpp" />
     <ClCompile Include="pieces.cpp" />
     <ClCompile Include="playerinfo.cpp" />
+    <ClCompile Include="Queen.cpp" />
     <ClCompile Include="rook.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="pawn.h" />
     <ClInclude Include="pieces.hpp" />
     <ClInclude Include="playerinfo.hpp" />
+    <ClInclude Include="Queen.h" />
     <ClInclude Include="rook.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
