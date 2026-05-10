@@ -1,10 +1,16 @@
-#include<iostream>
-using namespace std;
-
-int main() {
-	cout << " Hello World " << endl;	
-
-		
-
-	return 0;
-} 
+//#include "game.hpp"
+//int main()
+//{
+//
+//
+//
+//	game obj;
+//
+//
+//	obj.run();
+//
+//
+//
+//	system("pause");
+//	return 0;
+//}
