@@ -126,13 +126,14 @@
   <ItemGroup>
     <ClCompile Include="board.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pawn.cpp" />
     <ClCompile Include="pieces.cpp" />
     <ClCompile Include="playerinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Board.h" />
     <ClInclude Include="board.hpp" />
     <ClInclude Include="game.hpp" />
+    <ClInclude Include="pawn.h" />
     <ClInclude Include="pieces.hpp" />
     <ClInclude Include="playerinfo.hpp" />
   </ItemGroup>
