@@ -15,39 +15,52 @@ class info;
 
 class board
 {
+public:
+    enum class MoveResult
+    {
+        Invalid,
+        Moved,
+        PromotionPending,
+        Checkmate
+    };
+
 private:
-	const int x;
-	const int y;
-	char arr[8][8];
+    const int x;
+    const int y;
 
-	// game logic object
-	pieces legalmove;
+    pieces legalmove;
+    Pawn   pawnmove;
+    Rook   rookmove;
+    Bishop bishopmove;
+    Knight knightmove;
+    Queen  queenmove;
+    King   kingmove;
 
-	// individual piece objects
-	Pawn   pawnmove;
-	Rook   rookmove;
-	Bishop bishopmove;
-	Knight knightmove;
-	Queen  queenmove;
-	King   kingmove;
+    char tpieces[6];
+    char Tpieces[6];
 
-	char tpieces[6];
-	char Tpieces[6];
+    string srows, scolumns;
 
-	string srows, scolumns;
-
-	// for en passant
-	int enpassantrow;
-	int enpassantcol;
+    int enpassantrow;
+    int enpassantcol;
+    int pendingPromotionRow;
+    int pendingPromotionCol;
 
 public:
-	board();
+    char arr[8][8];
 
-	void createboard();
-	void allotpices();
-	void display();
-	void center();
+    board();
 
-	bool move(info& other, info& enemy);
-	~board();
+    void createboard();
+    void allotpices();
+    void display();
+    void center();
+
+    char getPieceAt(int r, int c);
+    bool move(info& other, info& enemy);
+    MoveResult moveSFML(int fromRow, int fromCol, int toRow, int toCol,
+        info& other, info& enemy);
+    bool hasPendingPromotion() const;
+    MoveResult completePromotion(char promotedPiece, info& other, info& enemy);
+    ~board();
 };

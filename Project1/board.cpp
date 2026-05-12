@@ -1,4 +1,4 @@
-﻿#include "board.h"
+#include "board.h"
 
 board::board() : x(8), y(8)
 {
@@ -6,10 +6,10 @@ board::board() : x(8), y(8)
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			arr[i][j] = 1;
+			arr[i][j] = '-';
 		}
 	}
-	srows = "87654321";
+	srows    = "87654321";
 	scolumns = "abcdefgh";
 	tpieces[0] = 'p';
 	tpieces[1] = 'k';
@@ -27,6 +27,8 @@ board::board() : x(8), y(8)
 
 	enpassantrow = -1;
 	enpassantcol = -1;
+	pendingPromotionRow = -1;
+	pendingPromotionCol = -1;
 }
 
 void board::createboard()
@@ -52,24 +54,7 @@ void board::display()
 		cout << "";
 		for (int j = 0; j < 8; ++j)
 		{
-			if (arr[i][j] == '-')
-			{
-				cout << setw(4) << arr[i][j];
-			}
-			else
-			{
-				for (int a = 0; a < 6; ++a)
-				{
-					if (arr[i][j] == tpieces[a])
-					{
-						cout << "\033[34m" << setw(4) << arr[i][j] << "\033[0m";
-					}
-					else if (arr[i][j] == Tpieces[a])
-					{
-						cout << "\033[92m" << setw(4) << arr[i][j] << "\033[0m";
-					}
-				}
-			}
+			cout << setw(4) << arr[i][j];
 		}
 		cout << "";
 		cout << endl;
@@ -248,9 +233,9 @@ bool board::move(info& other, info& enemy)
 					}
 
 					// if en passant capture happened remove the captured pawn
-					if (arr[tfx][tfy] == 'P' && tfx == tix + 1 && tfy != tiy && arr[tix + 1][tfy] == 'p')
+					if (arr[tfx][tfy] == 'P' && tfx == tix + 1 && tfy != tiy && arr[tix][tfy] == 'p')
 					{
-						arr[tix + 1][tfy] = '-';
+						arr[tix][tfy] = '-';
 					}
 
 					bool swaplegal = pawnmove.swap1bool();
@@ -283,6 +268,9 @@ bool board::move(info& other, info& enemy)
 							other.display();
 							center();
 							cout << " CHECKMATE! Player " << other.getid() << " wins! " << endl;
+							system("pause");
+							system("cls");
+							cout << " umar khan badozai " << endl;
 							system("pause");
 							return false;
 						}
@@ -368,9 +356,9 @@ bool board::move(info& other, info& enemy)
 					}
 
 					// if en passant capture happened remove the captured pawn
-					if (arr[tfx][tfy] == 'p' && tfx == tix - 1 && tfy != tiy && arr[tix - 1][tfy] == 'P')
+					if (arr[tfx][tfy] == 'p' && tfx == tix - 1 && tfy != tiy && arr[tix][tfy] == 'P')
 					{
-						arr[tix - 1][tfy] = '-';
+						arr[tix][tfy] = '-';
 					}
 
 					bool swaplegal = pawnmove.swap1bool();
@@ -403,7 +391,9 @@ bool board::move(info& other, info& enemy)
 							other.display();
 							center();
 							cout << " CHECKMATE! Player " << other.getid() << " wins! " << endl;
-							
+							system("pause");
+							system("cls");
+							cout << " umar khan badozai " << endl;
 							system("pause");
 							return false;
 						}
@@ -442,14 +432,212 @@ bool board::move(info& other, info& enemy)
 		}
 	}
 }
-
 board::~board()
 {
 	for (int i = 0; i < 8; ++i)
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			arr[i][j] = 1;
+			arr[i][j] = '-';
 		}
 	}
+}
+char board::getPieceAt(int r, int c) {
+    return arr[r][c];
+}
+
+bool board::hasPendingPromotion() const
+{
+    return pendingPromotionRow != -1 && pendingPromotionCol != -1;
+}
+
+board::MoveResult board::completePromotion(char promotedPiece, info& other, info& enemy)
+{
+    if (!hasPendingPromotion())
+    {
+        return MoveResult::Invalid;
+    }
+
+    if (other.getid() == 1)
+    {
+        if (promotedPiece != 'Q' && promotedPiece != 'R' && promotedPiece != 'B' && promotedPiece != 'N')
+        {
+            return MoveResult::Invalid;
+        }
+    }
+    else
+    {
+        if (promotedPiece != 'q' && promotedPiece != 'r' && promotedPiece != 'b' && promotedPiece != 'n')
+        {
+            return MoveResult::Invalid;
+        }
+    }
+
+    arr[pendingPromotionRow][pendingPromotionCol] = promotedPiece;
+    pendingPromotionRow = -1;
+    pendingPromotionCol = -1;
+
+    char enemyKing = (other.getid() == 1) ? 'k' : 'K';
+    int kingx = -1;
+    int kingy = -1;
+
+    for (int i = 0; i < 8; ++i)
+    {
+        for (int j = 0; j < 8; ++j)
+        {
+            if (arr[i][j] == enemyKing)
+            {
+                kingx = i;
+                kingy = j;
+            }
+        }
+    }
+
+    if (kingx != -1)
+    {
+        if (legalmove.checkmate(kingx, kingy, arr, tpieces, Tpieces, enemy, other, enpassantrow, enpassantcol))
+        {
+            return MoveResult::Checkmate;
+        }
+    }
+
+    return MoveResult::Moved;
+}
+
+board::MoveResult board::moveSFML(int tix, int tiy, int tfx, int tfy, info& other, info& enemy)
+{
+    if (other.getid() == 1)
+    {
+        bool found = false;
+        for (int i = 0; i < 6; ++i)
+            if (Tpieces[i] == arr[tix][tiy])
+                found = true;
+
+        if (!found) return MoveResult::Invalid;
+
+        bool legal = false;
+
+        if (arr[tix][tiy] == 'P')
+            legal = pawnmove.pawn1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other, enpassantrow, enpassantcol);
+        if (arr[tix][tiy] == 'R')
+            legal = rookmove.rock1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'B')
+            legal = bishopmove.bishop1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'N')
+            legal = knightmove.knight1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'Q')
+            legal = queenmove.queen1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'K')
+            legal = kingmove.king1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+
+        if (legal)
+            legal = legalmove.checklegal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other, enemy, enpassantrow, enpassantcol);
+
+        if (legal)
+        {
+            arr[tfx][tfy] = arr[tix][tiy];
+            arr[tix][tiy] = '-';
+
+            enpassantrow = -1;
+            enpassantcol = -1;
+
+            if (arr[tfx][tfy] == 'P' && tfx == tix + 2)
+            {
+                enpassantrow = tfx;
+                enpassantcol = tfy;
+            }
+
+            if (arr[tfx][tfy] == 'P' && tfx == tix + 1 && tfy != tiy && arr[tix][tfy] == 'p')
+                arr[tix][tfy] = '-';
+
+            bool swaplegal = pawnmove.swap1bool();
+            if (swaplegal && arr[tfx][tfy] == 'P')
+            {
+                pendingPromotionRow = tfx;
+                pendingPromotionCol = tfy;
+                return MoveResult::PromotionPending;
+            }
+
+            int kingx = -1, kingy = -1;
+            for (int i = 0; i < 8; ++i)
+                for (int j = 0; j < 8; ++j)
+                    if (arr[i][j] == 'k') { kingx = i; kingy = j; }
+
+            if (kingx != -1)
+            {
+                if (legalmove.checkmate(kingx, kingy, arr, tpieces, Tpieces, enemy, other, enpassantrow, enpassantcol))
+                    return MoveResult::Checkmate;
+            }
+            return MoveResult::Moved;
+        }
+        return MoveResult::Invalid;
+    }
+
+    if (other.getid() == 2)
+    {
+        bool found = false;
+        for (int i = 0; i < 6; ++i)
+            if (tpieces[i] == arr[tix][tiy])
+                found = true;
+
+        if (!found) return MoveResult::Invalid;
+
+        bool legal = false;
+
+        if (arr[tix][tiy] == 'p')
+            legal = pawnmove.pawn2legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other, enpassantrow, enpassantcol);
+        if (arr[tix][tiy] == 'r')
+            legal = rookmove.rock1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'b')
+            legal = bishopmove.bishop1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'n')
+            legal = knightmove.knight1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'q')
+            legal = queenmove.queen1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+        if (arr[tix][tiy] == 'k')
+            legal = kingmove.king1legal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other);
+
+        if (legal)
+            legal = legalmove.checklegal(tix, tiy, tfx, tfy, arr, tpieces, Tpieces, other, enemy, enpassantrow, enpassantcol);
+
+        if (legal)
+        {
+            arr[tfx][tfy] = arr[tix][tiy];
+            arr[tix][tiy] = '-';
+
+            enpassantrow = -1;
+            enpassantcol = -1;
+
+            if (arr[tfx][tfy] == 'p' && tfx == tix - 2)
+            {
+                enpassantrow = tfx;
+                enpassantcol = tfy;
+            }
+
+            if (arr[tfx][tfy] == 'p' && tfx == tix - 1 && tfy != tiy && arr[tix][tfy] == 'P')
+                arr[tix][tfy] = '-';
+
+            bool swaplegal = pawnmove.swap1bool();
+            if (swaplegal && arr[tfx][tfy] == 'p')
+            {
+                pendingPromotionRow = tfx;
+                pendingPromotionCol = tfy;
+                return MoveResult::PromotionPending;
+            }
+
+            int kingx = -1, kingy = -1;
+            for (int i = 0; i < 8; ++i)
+                for (int j = 0; j < 8; ++j)
+                    if (arr[i][j] == 'K') { kingx = i; kingy = j; }
+
+            if (kingx != -1)
+            {
+                if (legalmove.checkmate(kingx, kingy, arr, tpieces, Tpieces, enemy, other, enpassantrow, enpassantcol))
+                    return MoveResult::Checkmate;
+            }
+            return MoveResult::Moved;
+        }
+        return MoveResult::Invalid;
+    }
+    return MoveResult::Invalid;
 }

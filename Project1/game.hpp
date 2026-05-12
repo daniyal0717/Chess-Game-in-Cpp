@@ -12,7 +12,7 @@ class game
 {
 private:
     info* pinfo[2];
-	board chessboard;
+    board chessboard;
     sf::RenderWindow window;
     Renderer renderer;
     bool pieceSelected;
@@ -28,7 +28,7 @@ private:
     void setStatusMessage(const std::string& message);
 
 public:
-	game();
-	void run();
-	~game();
+    game();
+    void run();
+    ~game();
 };

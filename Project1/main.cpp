@@ -1,8 +1,9 @@
 #include "game.hpp"
-int main()
+#include <Windows.h>
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-	game obj;
-	obj.run();
-	system("pause");
-	return 0;
+    game obj;
+    obj.run();
+    return 0;
 }
